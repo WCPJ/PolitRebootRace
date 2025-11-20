@@ -1,11 +1,18 @@
 package org.worldcraft.politRebootRace.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlayerRaceProfile {
 
     private final UUID uuid;
     private String raceId;
+
+    // --- Прогресс эволюции ---
+    private String evolutionLineId;
+    private int evolutionStep;
+    private final Map<String, Integer> requirementProgress = new HashMap<>();
 
     // 0..20
     private int heat;          // Жар
@@ -26,6 +33,7 @@ public class PlayerRaceProfile {
         this.freeze = 0;
         this.water = 20; // Сбрасываем на максимум влажности
         this.endDistortion = 0;
+        resetEvolution();
     }
 
     public UUID uuid() {
@@ -42,6 +50,37 @@ public class PlayerRaceProfile {
 
     public boolean hasRace() {
         return raceId != null && !raceId.isEmpty();
+    }
+
+    // --- Эволюция ---
+    public String getEvolutionLineId() {
+        return evolutionLineId;
+    }
+
+    public void setEvolutionLineId(String evolutionLineId) {
+        this.evolutionLineId = evolutionLineId;
+    }
+
+    public int getEvolutionStep() {
+        return evolutionStep;
+    }
+
+    public void setEvolutionStep(int evolutionStep) {
+        this.evolutionStep = Math.max(0, evolutionStep);
+    }
+
+    public Map<String, Integer> getRequirementProgress() {
+        return requirementProgress;
+    }
+
+    public void incrementRequirement(String key, int delta) {
+        requirementProgress.put(key, requirementProgress.getOrDefault(key, 0) + delta);
+    }
+
+    public void resetEvolution() {
+        this.evolutionLineId = null;
+        this.evolutionStep = 0;
+        this.requirementProgress.clear();
     }
 
     // --- Жар ---

@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.worldcraft.politRebootRace.PolitRebootRace;
 import org.worldcraft.politRebootRace.model.*;
 
 import java.util.*;
@@ -421,6 +422,7 @@ public class SelectionManager implements Listener {
         }
 
         applyRacePotions(player, race);
+        PolitRebootRace.get().getEvolutionManager().applyBonuses(player);
     }
 
     private void clearRacePotions(Player player) {
@@ -542,9 +544,11 @@ public class SelectionManager implements Listener {
         PlayerRaceProfile profile = storage.get(player.getUniqueId());
         if (profile == null) return;
 
+        profile.resetEvolution();
         profile.setRaceId(race.id());
         storage.save();
 
+        PolitRebootRace.get().getEvolutionManager().clearBonuses(player);
         applyRaceAttributes(player, race);
         player.closeInventory();
         player.sendMessage("§aРаса установлена: §f" + race.displayName());
