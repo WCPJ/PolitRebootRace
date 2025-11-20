@@ -1,0 +1,13 @@
+name: PolitRebootRace
+main: org.worldcraft.politRebootRace.PolitRebootRace
+version: 1.0.0
+api-version: "1.21"
+author: Darkness404
+commands:
+  nationality:
+    description: Главная команда выбора расы
+    usage: /nationality [set|reset] [player] [race]
+permissions:
+  politrace.admin:
+    description: Позволяет сбрасывать и выдавать расы
+    default: op
