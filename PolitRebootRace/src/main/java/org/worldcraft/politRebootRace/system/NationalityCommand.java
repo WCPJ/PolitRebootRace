@@ -8,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.worldcraft.politRebootRace.PolitRebootRace;
 import org.worldcraft.politRebootRace.model.PlayerRaceProfile;
 import org.worldcraft.politRebootRace.model.RaceDefinition;
 import org.worldcraft.politRebootRace.model.RaceDimension;
@@ -79,11 +80,13 @@ public class NationalityCommand implements CommandExecutor, TabCompleter {
             profile.setFreeze(0);
             profile.setWater(20);
             profile.setEndDistortion(0);
+            profile.resetEvolution();
 
             storage.save(); // Сохраняем изменения
 
             // Сбрасываем физические атрибуты
             selectionManager.resetPlayerAttributes(target);
+            PolitRebootRace.get().getEvolutionManager().clearBonuses(target);
 
             sender.sendMessage("§aРаса игрока " + target.getName() + " успешно сброшена.");
             target.sendMessage("§eВаша раса была сброшена администратором.");
@@ -114,6 +117,7 @@ public class NationalityCommand implements CommandExecutor, TabCompleter {
 
             // Обновляем профиль
             PlayerRaceProfile profile = storage.get(target.getUniqueId());
+            profile.resetEvolution();
             profile.setRaceId(race.id());
             storage.save();
 

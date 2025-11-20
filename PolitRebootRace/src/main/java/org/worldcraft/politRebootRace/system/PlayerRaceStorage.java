@@ -43,6 +43,15 @@ public class PlayerRaceStorage {
                 p.setWater(config.getInt(base + ".water", 0));
                 p.setEndDistortion(config.getInt(base + ".endDistortion", 0));
 
+                p.setEvolutionLineId(config.getString(base + ".evolution.line", null));
+                p.setEvolutionStep(config.getInt(base + ".evolution.step", 0));
+                if (config.isConfigurationSection(base + ".evolution.progress")) {
+                    for (String keyReq : config.getConfigurationSection(base + ".evolution.progress").getKeys(false)) {
+                        int value = config.getInt(base + ".evolution.progress." + keyReq, 0);
+                        p.getRequirementProgress().put(keyReq, value);
+                    }
+                }
+
                 profiles.put(uuid, p);
             }
         }
@@ -60,6 +69,12 @@ public class PlayerRaceStorage {
             config.set(base + ".freeze", p.getFreeze());
             config.set(base + ".water", p.getWater());
             config.set(base + ".endDistortion", p.getEndDistortion());
+
+            config.set(base + ".evolution.line", p.getEvolutionLineId());
+            config.set(base + ".evolution.step", p.getEvolutionStep());
+            for (String key : p.getRequirementProgress().keySet()) {
+                config.set(base + ".evolution.progress." + key, p.getRequirementProgress().get(key));
+            }
         }
 
         try {

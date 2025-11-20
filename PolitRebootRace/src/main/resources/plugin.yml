@@ -7,6 +7,9 @@ commands:
   nationality:
     description: Главная команда выбора расы
     usage: /nationality [set|reset] [player] [race]
+  evolution:
+    description: Открывает меню развития расы
+    usage: /evolution
 permissions:
   politrace.admin:
     description: Позволяет сбрасывать и выдавать расы
